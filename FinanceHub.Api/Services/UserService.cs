@@ -14,6 +14,15 @@ public class UserService : IUserService
 
     public User Create(string name, string email)
     {
+        var existingUser =
+            _userRepository.GetByEmail(email);
+
+        if (existingUser != null)
+        {
+            throw new Exception(
+                "Email já cadastrado.");
+        }
+
         var user = new User
         {
             Id = Guid.NewGuid(),
